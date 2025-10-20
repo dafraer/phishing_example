@@ -201,3 +201,55 @@ form > p,
 form > button {
   margin-bottom: 6px;
 }
+/* Error messages under inputs */
+div[id^="wrong-"] {
+  display: block;               /* always block when not hidden */
+  color: #ff6b6b;               /* clear red */
+  background: transparent;
+  font-size: 13px;
+  line-height: 1.2;
+  margin: 6px 0 8px 6px;        /* small gap under input, slight indent */
+  padding: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  border-radius: 6px;
+  /* subtle entrance */
+  opacity: 0;
+  transform: translateY(-3px);
+  transition: opacity .18s ease, transform .18s ease;
+  white-space: normal;
+}
+
+/* small warning glyph to the left (optional but nice) */
+div[id^="wrong-"]::before {
+  content: "\26A0";             /* ⚠ */
+  margin-right: 8px;
+  font-size: 13px;
+  vertical-align: middle;
+  opacity: 0.95;
+}
+
+/* when not hidden, show and animate in */
+div[id^="wrong-"]:not([hidden]) {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ensure hidden attr always hides (JS sets hidden attribute) */
+[hidden] {
+  display: none !important;
+}
+
+/* keep layout consistent: add a small bottom margin to inputs */
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+  margin-bottom: 4px;  /* so message has room right under input */
+}
+
+/* Optional: make errors more readable on narrow screens */
+@media (max-width: 420px) {
+  div[id^="wrong-"] { font-size: 12px; margin-left: 4px; }
+  div[id^="wrong-"]::before { margin-right: 6px; }
+}
+
