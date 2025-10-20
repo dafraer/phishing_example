@@ -13,7 +13,7 @@ const (
 )
 
 func main() {
-	if len(os.Args) < 3 {
+	if len(os.Args) < 2 {
 		panic(fmt.Errorf("server address must be passed as an argument"))
 	}
 	addr := os.Args[1]
