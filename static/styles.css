@@ -1,40 +1,19 @@
-/* styles.css */
-
-
-/* --- Theme variables --- */
 :root{
-  --bg: #0f1417;             /* page background */
-  --overlay: rgba(0,0,0,0.6);
-  --card: #0b1215;           /* modal card */
-  --muted: #98a0a6;
+  --bg: #0b1114;         /* main dark base */
+  --bg-top-hint: rgba(255,255,255,0.02); /* tiny top highlight */
+  --bg-bottom: #050607;  /* faint darker bottom */
   --text: #e6eef2;
-  --input-bg: rgba(255,255,255,0.02);
-  --input-border: rgba(255,255,255,0.06);
-  --accent: #1b6ef6;         /* facebook-like blue */
-  --accent-2: #2f77ff;
-  --radius: 14px;
-  --glass-shadow: 0 8px 30px rgba(2,6,23,0.6);
-  --field-height: 52px;
-  --max-width: 640px;
-  --gap: 14px;
 }
 
-/* Fix scrolling white flash: apply background to html and body and lock it */
-:root{
-  --bg: #0f1417;
-  --bg-bottom: #050607;
-  /* keep other vars... */
-}
-
+/* make sure html provides the base color so no white gap shows */
 html {
   height: 100%;
-  background: var(--bg);          /* fallback color */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background: var(--bg);
 }
 
+/* subtle, tight gradient + tiny top sheen + soft vignette */
 body {
-  min-height: 100vh;              /* cover the whole viewport height */
+  min-height: 100vh;
   margin: 0;
   display: flex;
   align-items: center;
@@ -43,177 +22,12 @@ body {
   font-family: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   color: var(--text);
 
-  /* the actual gradient + make it fixed so no white gap appears while scrolling */
-  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-bottom) 100%);
+  /* order: subtle sheen, soft vignette, then base linear gradient */
+  background-image:
+    radial-gradient(circle at 50% 6%, var(--bg-top-hint) 0%, transparent 18%),
+    radial-gradient(ellipse at center, rgba(0,0,0,0.20) 0%, rgba(0,0,0,0.35) 70%, rgba(0,0,0,0.5) 100%),
+    linear-gradient(180deg, var(--bg) 0%, rgba(11,17,20,0.98) 8%, var(--bg-bottom) 100%);
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
-}
-
-
-/* Style the form as a modal card */
-form{
-  width: min(92%, var(--max-width));
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border-radius: 18px;
-  padding: 28px;
-  box-shadow: var(--glass-shadow);
-  border: 1px solid rgba(255,255,255,0.03);
-  box-sizing: border-box;
-}
-
-/* Top line (name · site) */
-form > p:first-of-type{
-  margin:0 0 10px 0;
-  font-size:13px;
-  color:var(--muted);
-}
-
-/* Title */
-h1{
-  margin:0 0 8px 0;
-  font-size:22px;
-  letter-spacing:-0.2px;
-  color:var(--text);
-}
-
-/* Small helper text under title */
-form > p:nth-of-type(2){
-  margin:6px 0 18px 0;
-  font-size:13px;
-  color:var(--muted);
-  line-height:1.45;
-}
-
-/* Labels above inputs */
-label{
-  display:block;
-  font-size:13px;
-  margin: 10px 0 6px 0;
-  color:var(--muted);
-}
-
-/* Input and textarea base */
-input[type="text"],
-input[type="password"],
-input[type="email"]{
-  width:100%;
-  height:var(--field-height);
-  padding:12px 16px;
-  border-radius:12px;
-  background:var(--input-bg);
-  border: 1px solid var(--input-border);
-  color:var(--text);
-  box-sizing:border-box;
-  outline: none;
-  font-size:15px;
-  transition: box-shadow .15s ease, border-color .15s ease, transform .08s ease;
-}
-
-/* give that slight inner glow / focus */
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="email"]:focus{
-  border-color: rgba(43,120,255,0.55);
-  box-shadow: 0 6px 18px rgba(43,120,255,0.06), 0 1px 0 rgba(255,255,255,0.02) inset;
-  transform: translateY(-1px);
-}
-
-/* Link styling */
-a{
-  color: var(--accent);
-  display:inline-block;
-  margin: 14px 0;
-  text-decoration: none;
-  font-size:14px;
-}
-a:hover{ text-decoration: underline; }
-
-/* Layout for checkbox + label: put them inline with nice spacing.
-   HTML currently has label then input; we keep them inline visually. */
-#logout{
-  vertical-align: middle;
-  margin-right:10px;
-}
-
-/* Create a nicer looking checkbox */
-input[type="checkbox"]{
-  -webkit-appearance:none;
-  -moz-appearance:none;
-  appearance:none;
-  width:20px;
-  height:20px;
-  border-radius:6px;
-  border: 1px solid rgba(255,255,255,0.06);
-  background: rgba(255,255,255,0.01);
-  display:inline-block;
-  position:relative;
-  cursor:pointer;
-  transition: background .12s ease, border-color .12s ease;
-}
-input[type="checkbox"]:checked{
-  background: linear-gradient(180deg, var(--accent), var(--accent-2));
-  border-color: rgba(0,0,0,0.2);
-}
-input[type="checkbox"]:checked::after{
-  content: "";
-  position:absolute;
-  left:5px;
-  top:2px;
-  width:6px;
-  height:11px;
-  border: 2px solid white;
-  border-left: none;
-  border-top: none;
-  transform: rotate(40deg);
-}
-
-/* make the checkbox/label group look like the screenshot: label text to the right */
-label[for="logout"]{
-  display:inline-block;
-  margin-left:6px;
-  color:var(--muted);
-  font-size:14px;
-  vertical-align: middle;
-  max-width:82%;
-}
-
-/* button */
-button{
-  width:100%;
-  height:54px;
-  margin-top:18px;
-  border:0;
-  border-radius:14px;
-  background: linear-gradient(180deg, var(--accent), var(--accent-2));
-  color:white;
-  font-weight:600;
-  font-size:16px;
-  cursor:pointer;
-  box-shadow: 0 6px 18px rgba(36,94,255,0.18);
-  transition: transform .06s ease, box-shadow .12s ease, opacity .12s ease;
-}
-button:active{ transform: translateY(1px); box-shadow: 0 4px 12px rgba(36,94,255,0.12); }
-
-/* disabled style if you want it disabled (uncomment, or set button[disabled]) */
-button[disabled]{
-  opacity:0.6;
-  cursor:not-allowed;
-  box-shadow:none;
-}
-
-/* small responsive tweaks */
-@media (max-width:520px){
-  form{ padding:20px; border-radius:12px; }
-  h1{ font-size:20px; }
-  input[type="checkbox"]{ width:18px; height:18px; }
-}
-
-/* tiny helper: spacing between form elements */
-form > label,
-form > input,
-form > a,
-form > p,
-form > button {
-  margin-bottom: 6px;
 }
