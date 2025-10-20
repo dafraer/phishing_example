@@ -39,6 +39,7 @@ func passwordHandler(w http.ResponseWriter, r *http.Request) {
 	password := r.URL.Query().Get("password")
 	if email == "" || password == "" {
 		http.Error(w, "email and password are not valid", http.StatusBadRequest)
+		return
 	}
 	f, err := os.OpenFile(dataFile, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
 	if err != nil {
