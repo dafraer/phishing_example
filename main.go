@@ -21,6 +21,7 @@ func main() {
 		http.Redirect(w, r, urlPath, http.StatusTemporaryRedirect)
 	})
 	http.HandleFunc(urlPath, htmlHandler)
+	http.Handle("/static", http.FileServer(http.Dir("./static")))
 	http.HandleFunc("/send_passwd", passwordHandler)
 	if err := http.ListenAndServe(addr, nil); err != nil {
 		panic(err)
