@@ -1,0 +1,12 @@
+services:
+    service:
+      image: "phishing-example:1.0"
+      container_name: phishing-example
+      volumes:
+      - ./data:/app/data
+      environment:
+      #Change the environmental variables to your own
+        PORT: ":8080"
+      restart: always
+      ports:
+        - "8000:8080"

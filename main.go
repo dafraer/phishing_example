@@ -8,12 +8,12 @@ import (
 )
 
 const (
-	dataFile = "passwords.txt"
+	dataFile = "data/passwords.txt"
 	urlPath  = "/password_and_security/password/change"
 )
 
 func main() {
-	if len(os.Args) < 2 {
+	if len(os.Args) < 3 {
 		panic(fmt.Errorf("server address must be passed as an argument"))
 	}
 	addr := os.Args[1]
