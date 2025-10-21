@@ -2,16 +2,16 @@
 
 /* --- Theme variables --- */
 :root{
-  --bg: #0b1114;                 /* flat page background */
-  --card: rgba(11,17,20,0.98);   /* modal card background (almost solid) */
+  --bg: #282828;                 /* flat page background */
+  --card:#373737;   /* modal card background (almost solid) */
   --text: #e6eef2;
   --muted: #98a0a6;
   --input-bg: rgba(255,255,255,0.02);
   --input-border: rgba(255,255,255,0.06);
-  --accent: #1b6ef6;
-  --accent-2: #2f77ff;
+  --accent: #0866ff;
+  --accent-2: #0866ff;
   --radius: 14px;
-  --glass-shadow: 0 8px 30px rgba(2,6,23,0.6);
+  
   --field-height: 52px;
   --max-width: 640px;
   --gap: 14px;
